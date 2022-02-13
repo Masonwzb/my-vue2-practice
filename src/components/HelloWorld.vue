@@ -27,15 +27,61 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <div>
+      <p>{{ foo }}</p>
+    </div>
+    <div id="example">
+      <p>Original message: "{{ message }}"</p>
+      <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    </div>
+    <ul id="example-1">
+      <li v-for="item in items" :key="item.message">
+        {{ item.message }}
+      </li>
+    </ul>
+    <button @click="changeItems">改变item数组</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
+
   props: {
-    msg: String
+    msg: String,
+    routerProps: String,
+  },
+
+  data() {
+    return {
+      foo: 'obj',
+      message: 'Hello',
+      items: [
+        { message: 'Foo' },
+        { message: 'Bar' }
+      ],
+    }
+  },
+
+  computed: {
+    reversedMessage() {
+      return this.message.split('').reverse().join('');
+    }
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.foo = 'changed !';
+    }, 2000);
+  },
+
+  methods: {
+    changeItems() {
+      this.items.reverse();
+      this.$router.push({ name: 'loading', params: { id: '123123123' }});
+    },
   }
+
 }
 </script>
 
